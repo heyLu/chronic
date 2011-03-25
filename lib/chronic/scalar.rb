@@ -1,6 +1,8 @@
 module Chronic
 
   class Scalar < Tag #:nodoc:
+    def self.t sym; Chronic.translate sym end
+
     def self.scan(tokens)
       # for each token
       tokens.each_index do |i|
@@ -14,7 +16,7 @@ module Chronic
 
     def self.scan_for_scalars(token, post_token)
       if token.word =~ /^\d*$/
-        unless post_token && %w{am pm morning afternoon evening night}.include?(post_token)
+        unless post_token && t(:DAYTIME_WORDS).include?(post_token)
           return Scalar.new(token.word.to_i)
         end
       end
@@ -24,7 +26,7 @@ module Chronic
     def self.scan_for_days(token, post_token)
       if token.word =~ /^\d\d?$/
         toi = token.word.to_i
-        unless toi > 31 || toi < 1 || (post_token && %w{am pm morning afternoon evening night}.include?(post_token.word))
+        unless toi > 31 || toi < 1 || (post_token && t(:DAYTIME_WORDS).include?(post_token.word))
           return ScalarDay.new(toi)
         end
       end
@@ -34,7 +36,7 @@ module Chronic
     def self.scan_for_months(token, post_token)
       if token.word =~ /^\d\d?$/
         toi = token.word.to_i
-        unless toi > 12 || toi < 1 || (post_token && %w{am pm morning afternoon evening night}.include?(post_token.word))
+        unless toi > 12 || toi < 1 || (post_token && t(:DAYTIME_WORDS).include?(post_token.word))
           return ScalarMonth.new(toi)
         end
       end
@@ -43,7 +45,7 @@ module Chronic
 
     def self.scan_for_years(token, post_token)
       if token.word =~ /^([1-9]\d)?\d\d?$/
-        unless post_token && %w{am pm morning afternoon evening night}.include?(post_token.word)
+        unless post_token && t(:DAYTIME_WORDS).include?(post_token.word)
           return ScalarYear.new(token.word.to_i)
         end
       end

@@ -1,6 +1,8 @@
 module Chronic
 
   class Ordinal < Tag #:nodoc:
+    def self.t sym; Chronic.translate sym end
+
     def self.scan(tokens)
       # for each token
       tokens.each_index do |i|
@@ -11,14 +13,14 @@ module Chronic
     end
 
     def self.scan_for_ordinals(token)
-      if token.word =~ /^(\d*)(st|nd|rd|th)$/
+      if token.word =~ /^#{t :ORDINAL}$/
         return Ordinal.new($1.to_i)
       end
       return nil
     end
 
     def self.scan_for_days(token)
-      if token.word =~ /^(\d*)(st|nd|rd|th)$/
+      if token.word =~ /^#{t :ORDINAL}$/
         unless $1.to_i > 31 || $1.to_i < 1
           return OrdinalDay.new(token.word.to_i)
         end

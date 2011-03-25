@@ -1,6 +1,8 @@
 module Chronic
 
   class Pointer < Tag #:nodoc:
+    def self.t sym; Chronic.translate sym end
+
     def self.scan(tokens)
       # for each token
       tokens.each_index do |i|
@@ -10,9 +12,9 @@ module Chronic
     end
 
     def self.scan_for_all(token)
-      scanner = {/\bpast\b/ => :past,
-                 /\bfuture\b/ => :future,
-                 /\bin\b/ => :future}
+      scanner = {/\b#{ :PAST}\b/ => :past,
+                 /\b#{t :FUTURE}\b/ => :future,
+                 /\b#{t :FUTURE_IN}\b/ => :future}
       scanner.keys.each do |scanner_item|
         return self.new(scanner[scanner_item]) if scanner_item =~ token.word
       end

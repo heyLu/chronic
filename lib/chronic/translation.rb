@@ -7,9 +7,8 @@ module Chronic
   end
 
   module Translation
+    autoload :EN, 'chronic/translations/en'
     autoload :DE, 'chronic/translations/de'
-
-    module EN; end # FIXME
 
     module Current
       # Set the default. Quite... hackish?
