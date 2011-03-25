@@ -4,6 +4,10 @@ module Chronic
       Translation::Current.const_get symbol
     end
     alias :t :translate
+
+	 def language= lang
+		Translation::Current.translation = lang
+	 end
   end
 
   module Translation
