@@ -13,6 +13,7 @@ require 'time'
 
 require 'chronic/chronic'
 require 'chronic/handlers'
+require 'chronic/translation'
 
 require 'chronic/repeater'
 require 'chronic/repeaters/repeater_year'
